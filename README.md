@@ -12,4 +12,4 @@ Finally the last task was to put all visualizations together on the web platform
 
 ## The Dashboard
 
-![Bbdata visualization dashboard](m)
+![Bbdata visualization dashboard]( DataViz/figure/dashboardtest.PNG )
