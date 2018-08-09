@@ -12,4 +12,4 @@ Finally the last task was to put all visualizations together on the web platform
 
 ## The Dashboard
 
-![Bbdata visualization dashboard](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/dashboardtest.png)
+![alt text](https://github.com/JobinJohan/master/figure/dashboardtest.png "Logo Title Text 1")
