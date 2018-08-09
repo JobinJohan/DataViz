@@ -29,7 +29,7 @@ Finally the last task was to put all visualizations together on the web platform
 ![radialPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/radialPlot.PNG)
 
 ### The calendar heat map
-![calendarheatmap](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/calendarHeatMap.PNG)
+![calendarheatmap](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/calendarHeatMap2.PNG)
 
 ### The histogram
 ![histogram](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/histogram.PNG)
