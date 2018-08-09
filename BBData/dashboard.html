@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+  <meta charset="utf-8">
+  <meta name="description" content="BBData dashboard"/>
+  <meta name="author" content="Johan Jobin"/>
+
+  <title>BBData visualization dashboard</title>
+
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="js/jquery-1.11.1.min.js"></script>
+  <script src="js/nouislider.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="js/checkCookie.js"></script>
+  <script src="js/d3.v4.js"></script>
+  <script src="js/chartLine.js"></script>
+  <script src="js/scatterPlot.js"></script>
+  <script src="js/savesvgaspng.js"></script>
+  <script src="js/clock.js"></script>
+  <script src="js/humidityArc.js"></script>
+  <script src="js/usefulFunctions.js"></script>
+  <script src="js/boxPlot.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/radialPlot.js"></script>
+  <script src="js/circlePathGenerator.js"></script>
+  <script src="js/spiralPlot.js"></script>
+  <script src="js/calendarHeatMap.js"></script>
+  <script src="js/thermometer.js"></script>
+  <script src="js/lightBulb.js"></script>
+  <script src="js/histogram.js"></script>
+  <script src="js/mainTable.js"></script>
+  <script src="js/barMainTable.js"></script>
+
+
+  <link href="css/style_dashboard.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/nouislider.min.css"/>
+
+</head>
+
+  <body class="home" onload="checkConn()">
+    <div class="container-fluid ">
+        <div class="row no-gutter">
+            <div class="col-md-2 hidden-sm hidden-xs" id="navigation">
+                <div class="logo">
+                    <a href="dashboard.html"><img src="ressources/logo.png" alt="BBData_Logo" class="hidden-xs hidden-sm"></a>
+                </div>
+                <div class="navi">
+                    <ul>
+                        <li><a href="dashboard.html"><span class="hidden-xs hidden-sm">Home</span></a></li>
+                        <li><a href="dashboard_listSensors.html"><span class="hidden-xs hidden-sm">List of sensors</span></a></li>
+                        <li><a href="dashboard_profile.html"><span class="hidden-xs hidden-sm">User Profile</span></a></li>
+                    </ul>
+                </div>
+             </div>
+            <div class="col-md-offset-2" id="mainPanel">
+              <div class="hidden-md hidden-lg">
+                <nav class="navbar navbar-inverse" style="background-color: #0e1a35;">
+                  <div class="container-fluid">
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="mainNavBar">
+                      <ul class="nav navbar-nav">
+                        <li class="active" style="font-color: white;"><a style="background-color: #0e1a35;" href="dashboard.html">Home</a></li>
+                        <li style="font-color: white;"><a style="background-color: #0e1a35;" href="dashboard_listSensors.html">List of sensors</a></li>
+                        <li style="font-color: white;"><a style="background-color: #0e1a35;" href="dashboard_profile.html">User's profile</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+
+              <header id="Entete">
+                <script type="text/javascript">
+                var userId= getCookie('userId');
+                var bbtoken = getCookie('key');
+                axios.get('https://bbdata.daplab.ch/api/me',{'headers': {'bbuser': userId, 'bbtoken': bbtoken}})
+                .then(function (response){document.getElementById("Entete").innerHTML="<h1>Welcome "+ response.data.name + " on BBData visualization system</h1>";})
+                .catch(function (error) {
+                  alert(""+ err + " Please reload the page to retry. This platform is compatible with Firefox (full) and Chrome (high)");
+                });
+                </script>
+              </header>
+
+              <div class="container-fluid">
+                <div class="row" style="padding-bottom: 50px;">
+                  <div id="dashBoard">
+                    <div id="leftSide" class="col-md-5";>
+                      <script>
+                      // Global variable that will contain all average of each sensor
+                      var nestGlobal;
+
+                      // Event used to redraw the table in order to make it responsive
+                      window.addEventListener("resize",debounce(function(e){
+                        if(nestGlobal!=undefined){
+                          // console.log(nest);
+                          // console.log(document.getElementById("leftSide").offsetWidth);
+                          var element = document.getElementById("mainTable");
+                          element.parentNode.removeChild(element);
+                          var divWidth2 = document.getElementById("leftSide").offsetWidth;
+                          createMainTable(nestGlobal,"leftSide", Math.floor((divWidth2-(divWidth2*0.25))/13))
+                        }
+                      }));
+
+                      // Request all data and draw the main table
+                        (async function requestListSensorsSimple(){
+
+                          // Display the logo of the loading
+                            var x = document.createElement("img");
+                            x.setAttribute("src","ressources/loading.gif");
+                            x.setAttribute("id","loadingMainTable");
+                            x.setAttribute("style", "display:block; margin:auto;");
+                            document.getElementById("leftSide").appendChild(x);
+
+                          // Creation of two lists:
+                          //        - one containing the ids of sensors which measure float values
+                          //        - one containing the ids of sensors which measure int/boolean values
+                            var url = "https://bbdata.daplab.ch/api/objects?"
+                            var userId= getCookie('userId');
+                            var bbtoken = getCookie('key');
+                            const asyncData= await axios.get(url,{'headers': {'bbuser': userId, 'bbtoken': bbtoken}}).catch(err => alert(""+ err + " Please reload the page to retry"));
+                            // console.log(asyncData.data);
+                            var ids=[];
+                            var idsOfNonFloatValues=[];
+                            for(var i = 0; i<asyncData.data.length; i++){
+                              if(asyncData.data[i].unit.symbol=='on'|| asyncData.data[i].unit.symbol =='none'){
+                                // Boolean values
+                                idsOfNonFloatValues.push(asyncData.data[i].id);
+                              }
+                              else{
+                                // Float values
+                                ids.push(asyncData.data[i].id);
+                              }
+                            }
+
+                        // We can get at most 1528 sensors/request from the REST interface
+                        // Computation of the number of necessary requests
+                          var numberOfRequest = Math.ceil(ids.length/500);
+                          var now = new Date(Date.now()).toJSON();
+                          var firstDayOfMonth = new Date(Date.now()).getFullYear()+"-"+(new Date(Date.now()).getMonth()+1) +"-01T00"
+
+
+                        // The array allData will contain all measures of the current month of all sensors
+                          var allData=[];
+                          if(numberOfRequest<=1){
+                          // Conversion of the 2 lists into strings in order to do the request
+                            var stringIdsFloatValues= arrayIdsToString(ids);
+                            var stringIdsNonFloatValues= arrayIdsToString(idsOfNonFloatValues);
+                            var url1 = "https://bbdata.daplab.ch/api/values/hours?ids="+stringIdsFloatValues+"&&from="+firstDayOfMonth+"&&to="+now;
+                            var url2 = "https://bbdata.daplab.ch/api/values?ids="+stringIdsNonFloatValues+"&&from="+firstDayOfMonth+"&&to="+now;
+                            const totalDataFloatValues= await axios.get(url1,{'headers': {'bbuser': userId, 'bbtoken': bbtoken}}).catch(err => alert(""+ err + " Please reload the page to retry"));
+                            const totalDataNonFloatValues= await axios.get(url2,{'headers': {'bbuser': userId, 'bbtoken': bbtoken}}).catch(err => alert(""+ err + " Please reload the page to retry"));
+                            allData.push(totalDataFloatValues.data);
+                            allData.push(totalDataNonFloatValues.data);
+                          }
+                          else{
+                            var stringIdsNonFloatValues= arrayIdsToString(idsOfNonFloatValues);
+                            var url2 = "https://bbdata.daplab.ch/api/values?ids="+stringIdsNonFloatValues+"&&from="+firstDayOfMonth+"&&to="+now;
+                            const totalDataNonFloatValues= await axios.get(url2,{'headers': {'bbuser': userId, 'bbtoken': bbtoken}}).catch(err => alert(""+ err + " Please reload the page to retry"));
+                            allData.push(totalDataNonFloatValues.data);
+
+                            for(var i=0; i<=numberOfRequest-1; i++){
+                              stringIds= arrayIdsToString(ids.slice(i*500, (i+1)*500));
+                              var url = "https://bbdata.daplab.ch/api/values/hours?ids="+stringIds+"&&from="+firstDayOfMonth+"&&to="+now;
+                              const totalDataFloatValues= await axios.get(url,{'headers': {'bbuser': userId, 'bbtoken': bbtoken}}).catch(err => alert(""+ err + " Please reload the page to retry"));
+                              allData.push(totalDataFloatValues.data);
+                            }
+                          }
+
+                        // This flattens the previous array allData
+                          allData= [].concat.apply([], allData);
+
+
+                        
+
+                        // For floats values, compute the mean of all measures
+                        // For boolean values, compute the rate of on/true values
+                          for(var i=0; i<allData.length; i++){
+                            if(allData[i].values.length>0){
+                              if(allData[i].unit.symbol=='on'){
+                                if(arr.sum(allData[i].values.map(function (x){if(x.value=="on"||x.value=="true"){return 1}else{return 0}}))==0){
+                                // Case where there is no on/true value, rate=0
+                                  allData[i].values="0";
+                                }
+                                else{
+                                // Case where there is at least one on/true value, computation of this rate
+                                  allData[i].values = Math.round((parseInt(arr.sum(allData[i].values.map(function (x){if(x.value=="on"||x.value=="true"){return 1}else{return 0}})))/(parseInt(allData[i].values.length)))*100*100)/100;
+                                }
+                              }
+                              else if(allData[i].unit.symbol=='none'){
+                                // Mean of int values
+                                allData[i].values = Math.round(d3.mean(allData[i].values, function(d){return d.value})*100)/100;
+                              }
+                              else{
+                                // Mean of float values
+                                allData[i].values = Math.round(d3.mean(allData[i].values, function(d){return d.mean})*100)/100;
+                              }
+                            }
+                          }
+                          console.log(allData);
+                        // Reorganization of the data per unit
+                          nestGlobal = d3.nest()
+                            .key(function(d){return d.unit.symbol})
+                            .entries(allData);
+
+                          for(kindOfSensor in nestGlobal){
+                            min = d3.min(nestGlobal[kindOfSensor].values, function(d){
+                              return parseFloat(d.values);
+                            });
+                            max = d3.max(nestGlobal[kindOfSensor].values, function(d){
+                              return parseFloat(d.values);
+                            });
+
+                            if(min== undefined && max==undefined){
+                              nestGlobal[kindOfSensor].min= 0;
+                              nestGlobal[kindOfSensor].max= 0;
+                            }
+                            else{
+                              nestGlobal[kindOfSensor].min= min;
+                              nestGlobal[kindOfSensor].max= max;
+
+                            }
+
+                          }
+
+                          // Deletion of the loading gif
+                          elem= document.getElementById("loadingMainTable");
+                          if(elem!= null){
+                            elem.parentNode.removeChild(elem);
+                          }
+
+                          // Get the width of the div that will contain the main table
+                          var divWidth = document.getElementById("leftSide").offsetWidth;
+                          createMainTable(nestGlobal, "leftSide", Math.floor((divWidth-(divWidth*0.25))/13));
+                      })()
+
+
+                      </script>
+                    </div>
+
+                    <div id="rightSide"class="col-md-7 content">
+
+                              <div class="container-fluid" style="width:100%;">
+                                <!-- <h3>Choose the graph you want to display</h3> -->
+                                <ul class="nav nav-pills">
+                                <li class="active"><a data-toggle="tab" href="#chartLineTab">Line chart</a></li>
+                                <li><a data-toggle="tab" href="#scatterPlotTab">Scatter Plot</a></li>
+                                <li><a data-toggle="tab" href="#boxPlotTab">Box plot</a></li>
+                                <li><a data-toggle="tab" href="#radialPlotTab">Radial Plot</a></li>
+                                <li><a data-toggle="tab" href="#calendarHeatMapTab">Calendar heat map</a></li>
+                                <li><a data-toggle="tab" href="#histogramTab">Histogram</a></li>
+                                </ul>
+
+                                <div class="tab-content" style="padding-top:30px;">
+                                  <div id="chartLineTab" class=" tab-pane fade in active">
+                                    <div class="deleteAll panel panel-primary">
+                                      <div class="panel-heading">
+                                        Information
+                                      </div>
+                                      <div class="panel-body">
+                                        No graphic generated yet, make the request using the main table
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div id="scatterPlotTab" class="tab-pane fade">
+
+                                      <div class="deleteAll panel panel-primary">
+                                        <div class="panel-heading">
+                                          Information
+                                        </div>
+                                        <div class="panel-body">
+                                          No graphic generated yet, make the request using the main table
+                                        </div>
+                                      </div>
+
+                                  </div>
+                                  <div id="boxPlotTab" class="tab-pane fade">
+                                      <div class="deleteAll panel panel-primary">
+                                        <div class="panel-heading">
+                                          Information
+                                        </div>
+                                        <div class="panel-body">
+                                          No graphic generated yet, make the request using the main table
+                                        </div>
+                                      </div>
+
+                                  </div>
+                                  <div id="radialPlotTab" class="tab-pane fade">
+                                      <div class="deleteAll panel panel-primary">
+                                        <div class="panel-heading">
+                                          Information
+                                        </div>
+                                        <div class="panel-body">
+                                          No graphic generated yet, make the request using the main table
+                                        </div>
+                                      </div>
+                                      <div id="radialPlotScale">
+
+                                      </div>
+                                  </div>
+                                  <div id="calendarHeatMapTab" class="tab-pane fade">
+                                      <div class="deleteAll panel panel-primary">
+                                        <div class="panel-heading">
+                                          Information
+                                        </div>
+                                        <div class="panel-body">
+                                          No graphic generated yet, make the request using the main table
+                                        </div>
+                                      </div>
+                                      <div id="calendarHeatMapScale">
+
+                                      </div>
+
+                                  </div>
+                                  <div id="histogramTab" class="tab-pane fade">
+                                      <div class="deleteAll panel panel-primary">
+                                        <div class="panel-heading">
+                                          Information
+                                        </div>
+                                        <div class="panel-body">
+                                          No graphic generated yet, make the request using the main table
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="container-fluid">
+                <div class="row footer">
+                  <div class="col-md-3 col-xs-12">
+                    <p>
+                      Johan Jobin <br>
+                      University of Fribourg <br>
+                      <a href="mailto:johan.jobin@unifr.ch?subject=BBData">johan.jobin@unifr.ch</a><br>
+                    </p>
+                  </div>
+                  <div class="col-md-3 col-xs-12">
+                    <p>
+                      Data Visualization with D3
+                    </p>
+                  </div>
+                  <div class="col-md-3 col-xs-12">
+                    <p>
+                      Bachelor<br>
+                    <a href="http://human-ist.unifr.ch/">Human IST</a><br>
+                    </p>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</body>
+</html>

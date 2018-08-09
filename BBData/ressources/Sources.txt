@@ -1,0 +1,2 @@
+Logo: https://bbdata-admin.daplab.ch/auth/
+loading: generated with https://loading.io/

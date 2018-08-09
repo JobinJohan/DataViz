@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="BBData dashboard"/>
+    <meta name="author" content="Johan Jobin"/>
+
+    <title>BBData visualization dashboard</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.css"/>
+    <link href="css/style_dashboard.css" rel="stylesheet"/>
+
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/checkCookie.js"></script>
+    <script src="js/usefulFunctions.js"></script>
+    <script src="js/tableListOfSensors.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+  </head>
+
+  <body class="home" onload="checkConn()">
+    <div class="container-fluid ">
+        <div class="row no-gutter">
+            <div class="col-md-2 hidden-sm hidden-xs" id="navigation">
+                <div class="logo">
+                    <a href="dashboard.html"><img src="ressources/logo.png" alt="BBData_Logo" class="hidden-xs hidden-sm"></a>
+                </div>
+                <div class="navi">
+                    <ul>
+                        <li class="active"><a href="dashboard.html"><span class="hidden-xs hidden-sm">Home</span></a></li>
+                        <li><a href="dashboard_listSensors.html"><span class="hidden-xs hidden-sm">List of sensors</span></a></li>
+                        <li><a href="dashboard_profile.html"><span class="hidden-xs hidden-sm">User Profile</span></a></li>
+                    </ul>
+                </div>
+             </div>
+            <div class="col-md-offset-2" id="mainPanel">
+              <div class="hidden-md hidden-lg">
+                <nav class="navbar navbar-inverse" style="background-color: #0e1a35;">
+                  <div class="container-fluid">
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="mainNavBar">
+                      <ul class="nav navbar-nav">
+                        <li style="font-color: white;"><a style="background-color: #0e1a35;" href="dashboard.html">Home</a></li>
+                        <li class="active" style="font-color: white;"><a style="background-color: #0e1a35;" href="dashboard_listSensors.html">List of sensors</a></li>
+                        <li style="font-color: white;"><a style="background-color: #0e1a35;" href="dashboard_profile.html">User's profile</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+
+              <header id="Entete">
+                <h1>List of sensors</h1>
+              </header>
+
+
+              <div class="container-fluid">
+                <div class="row" style="padding-bottom:50px;">
+                  <div id="arrayResult">
+                    <div id="arrayResultCell" class="col-xs-12">
+                      <h2 style="padding-bottom:30px;">Filters</h2>
+                      <form>
+                      <div class="form-row">
+
+                      <div class="col-lg-3">Description:<input class="form-control" id="descrFilter" name="descrFilter" type="text"></div>
+                      <div class="col-lg-2">Id:<input class="form-control" id="idFilter" name="idFilter" type="text"></div>
+                      <div class="col-lg-3">Name:<input class="form-control"  id="nameFilter" name="nameFilter" type="text"></div>
+                      <div class="col-lg-2">Tags:<input class="form-control" id="tagsFilter" name="tagsFilter" type="text" placeholder="[{'tag':value}]"></div>
+                      <div class="col-lg-2" style="padding-bottom:30px;">State:
+                        <select class="form-control" id="disableFilter" name="disableFilter" type="text">
+                          <option value="true">True</option>
+                          <option value="false" selected="selected">False</option>
+                        </select>
+                      </div>
+                      </div>
+                      </form>
+                      <hr/>
+
+                      <script>
+                        (async function requestListSensorsSimple(){
+                        var url = "https://bbdata.daplab.ch/api/objects?"
+                        var userId= getCookie('userId');
+                        var bbtoken = getCookie('key');
+                        const asyncData= await axios.get(url,{'headers': {'bbuser': userId, 'bbtoken': bbtoken}});
+                        tableCreate("arrayResultCell", asyncData.data);
+                      })()
+                      </script>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+
+
+            <div class="container-fluid">
+              <div class="row footer">
+                  <div class="col-md-3 col-xs-12">
+                          <p>
+                            Johan Jobin <br>
+                            University of Fribourg <br>
+                            <a href="mailto:johan.jobin@unifr.ch?subject=BBData">johan.jobin@unifr.ch</a><br>
+
+                          </p>
+                        </div>
+                  <div class="col-md-3 col-xs-12">
+                          <p>
+                            Data Visualization with D3
+                          </p>
+                        </div>
+                  <div class="col-md-3 col-xs-12">
+                          <p>
+                            Bachelor<br>
+                            <a href="http://human-ist.unifr.ch/">Human IST</a><br>
+                          </p>
+                        </div>
+              </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

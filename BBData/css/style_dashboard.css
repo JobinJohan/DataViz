@@ -1,0 +1,257 @@
+/*
+Author: Johan Jobin, University of Fribourg 2018
+Description: css style for the website
+*/
+
+
+/*
+Organization of this file:
+
+1) Global style
+2) Connexion page
+3) Home
+4) List of sensors
+5) User's profile
+6) Settings
+*/
+
+
+/*------------- 1) Global style --------*/
+
+/*Remove the space between Boostrap Columns*/
+.no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0px;
+}
+
+
+header {
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
+    display: inline-block !important;
+    line-height: 23px;
+    padding: 15px;
+    transition: all 0.5s ease 0s;
+    width: 100%;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
+/*Sidebar background*/
+  #navigation {
+    position:fixed;
+    background: #0e1a35;
+    background-repeat: repeat-y;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    height: 100vh;
+  }
+
+/* Position of the logo*/
+  .logo img {
+    max-width: 180px;
+    padding: 16px 0 17px;
+    width: 100%;
+  }
+
+/* Position of the logo*/
+  .logo {
+    text-align: center;
+  }
+
+
+/*List item in the nav sidebar with no margin and no style */
+  li,ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+/*Style of the sidebar*/
+  .navi a {
+    border-bottom: 1px solid #0d172e;
+    border-top: 1px solid #0d172e;
+    color: #ffffff;
+    display: block;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 28px 20px;
+    text-decoration: none;
+}
+
+  .navi a:hover {
+    background: #122143 none repeat scroll 0 0;
+    border-left: 5px solid #5584ff;
+    display: block;
+    padding-left: 15px;
+  }
+
+/*Main panel background for all pages*/
+  .home {
+    background: #ebedef;
+  }
+
+  #mainPanel{
+    min-height: 100vh;
+  }
+
+/*Footer of all pages*/
+  .footer{
+    background-color: #0e1a35;
+    border: 1px solid white;
+  }
+
+/*Footer's paragraph*/
+  .footer p{
+    color: white;
+  }
+
+/*--------------1) End Global style ------*/
+
+/*------------- 2) Connexion page --------*/
+
+/*Position of the form*/
+  #formConn{
+    margin-top: 20px;
+    margin-left: 30px;
+  }
+
+/*Error when wrong password or Username*/
+  .error{
+    color:red;
+  }
+
+/*------------- 2) End connexion page --------*/
+
+/*--------------3) Homepage ------------------*/
+
+/*Used to highlight cells in the main array*/
+  #mainTable td.highlighted, .nu-selection-box, .nu-selected{
+    border: 4px solid black;
+  }
+
+  #dashBoard{
+    background-color: #ebedef;
+    padding:40px;
+  }
+
+  #leftSide{
+    background-color: white;
+    border-radius: 20px;
+  }
+
+  #rightSide{
+    background-color: white;
+    border-radius: 20px;
+    height: 100%;
+  }
+
+  #mainTable{
+    border:none;
+    word-wrap: break-word;
+  }
+
+  #mainTable .sensorItem{
+    border: 1px solid black ;
+    border-color: black;
+  }
+
+  #mainTable li{
+    border: 1px solid black ;
+    border-color: black;
+  }
+
+ hr{
+    border: 0;
+    clear:both;
+    display:block;
+    width: 98%;
+    background-color:grey;
+    height: 2px;
+  }
+
+
+.zoom{
+  cursor: move;     /*Change style of the cursor*/
+  fill: none;
+  pointer-events: all;  /*Allow to click on all objects composing a svg graph*/
+}
+
+/*For the box containing the information about a rect in the circle graph*/
+.tooltip {
+  background: #eee;
+  box-shadow: 0 0 5px #999999;
+  color: #333;
+  font-size: 12px;
+  left: 130px;
+  padding: 10px;
+  position: absolute;
+  text-align: center;
+  top: 95px;
+  z-index: 10;
+  display: block;
+  opacity: 0;
+}
+
+/*--------------3)End Homepage ------------------*/
+
+/*--------------4)List of sensors ------------------*/
+  #arrayResult{
+    background-color: #ebedef;
+    padding: 20px;
+  }
+
+  #arrayResultCell{
+    background-color: white;
+    border-radius: 20px;
+  }
+
+/*--------------4)End list of sensors  ------------------*/
+
+
+
+/*------------- 5) User's profile page --------*/
+
+/*Content of the page*/
+  .dashboard-profile{
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+/*Array with the user's data*/
+  #profileArray{
+    width: 60%;
+    margin: auto;
+  }
+
+/*Style of cells in the array*/
+  #profileArray th, #profileArray td {
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+  }
+
+/*Caption*/
+  caption{
+    caption-side: top;
+  }
+
+/*Caption style*/
+  .titleProfile{
+    color: #0e1a35;
+    font-size: 30px;
+    text-align: center;
+    margin:auto;
+  }
+
+/*div containing the profile's group*/
+  #profileGroups{
+    text-align: center;
+  }
+
+/*------------- End User's profile page --------*/

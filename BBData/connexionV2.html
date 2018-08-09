@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>BBData visualization dashboard</title>
+
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+
+  <script src="js/jquery-1.11.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="js/checkCookie.js"></script>
+  <script src="js/d3.v4.js"></script>
+  <script src="js/chartLine.js"></script>
+
+  <link href="css/style_dashboard.css" rel="stylesheet"/>
+</head>
+
+<body class="home" onload="checkConn()">
+    <div class="container-fluid ">
+        <div class="row no-gutter">
+            <div class="col-md-2 hidden-sm hidden-xs" id="navigation">
+                <div class="logo">
+                    <a href="dashboard.html"><img src="ressources/logo.png" alt="BBData_Logo" class="hidden-xs hidden-sm"></a>
+                </div>
+             </div>
+
+            <div class="col-md-offset-2" id="mainPanel">
+
+                <header id="Entete">
+                  <h1>Connexion to BBdata visualization system</h1>
+                </header>
+
+                <div class="user-dashboard">
+                  <form id="formConn">
+
+                      <label for="pseudo">Username</label>:
+                      <input type="text" name="pseudo" id="pseudo" required/>
+                    </p>
+                    <p>
+                      <label for="mdp">Password</label>: <!--attribut for lie le label à l'id -->
+                      <input type="password" name="mdp" id="mdp" required />
+                    </p>
+                    <p>
+                      <input type="submit" value="Send" />
+                      <input type="reset" value="Reset" />
+                    </p>
+
+                    <p id="error">
+
+                    </p>
+                  </form>
+                  <script>
+                    document.getElementById('formConn').addEventListener('submit',function test(e){
+                            var username = document.getElementById("pseudo").value;
+                            var password = document.getElementById("mdp").value;
+                            var data = JSON.stringify({username: username,password: password});
+                            axios.post('https://bbdata.daplab.ch/api/login',data, {headers: {'Content-Type': 'application/json'
+                          }}).then(function (response) {
+                              var d = new Date();
+                              d.setTime(d.getTime()+(1000*60*60));
+                              var expires="expires="+d.toUTCString();
+                              document.cookie ="key="+response.data.secret+";"+expires+"; path=/;"; //cookie containing API key
+                              document.cookie ="userId="+response.data.userId+";"+expires+"; path=/;"; //cookie containing the UserId
+                              document.cookie ="expiration="+d.getTime()+";"+expires+";path=/";
+                              document.location="dashboard.html"
+                              })
+                            .catch(function (error) {
+                              var element = document.getElementById("error").firstChild;
+                              element.parentNode.removeChild(element);
+                              var wrongEntry = document.createElement("h1").appendChild(document.createTextNode("Wrong password or username"));
+                              document.getElementById("error").appendChild(wrongEntry);
+                              document.getElementById("formConn").reset();
+                            });
+                            e.preventDefault();
+                    });
+                  </script>
+
+                </div>
+            </div>
+
+
+            </div>
+
+
+
+            <div class="row footer col-md-offset-2">
+              <div class="col-md-3 col-xs-12">
+                <p>
+                  Johan Jobin <br>
+                  University of Fribourg <br>
+                  <a href="mailto:johan.jobin@unifr.ch?subject=BBData">johan.jobin@unifr.ch</a><br>
+
+                </p>
+              </div>
+              <div class="col-md-3 col-xs-12">
+                <p>
+                  Data Visualization with D3
+                </p>
+              </div>
+              <div class="col-md-3 col-xs-12">
+                <p>
+                  Bachelor<br>
+                  <a href="http://human-ist.unifr.ch/">Human IST</a><br>
+                </p>
+              </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</body>
