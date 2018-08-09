@@ -12,4 +12,37 @@ Finally the last task was to put all visualizations together on the web platform
 
 ## The Dashboard
 
-![test](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/dashboardtest.PNG)
+![Main page](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/dashboardtest.PNG)
+
+## The visualizations made with d3.js v4
+
+### The line chart
+![lineChart](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/lineChart.PNG)
+
+### The scatter plot
+![scatterPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/scatterPlot.PNG)
+
+### The box plot
+![boxPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/boxPlot.PNG)
+
+### The radial plot
+![radialPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/radialPlot.PNG)
+
+### The calendar heat map
+![calendarheatmap](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/calendarHeatMap.PNG)
+
+### The histogram
+![histogram](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/histogram.PNG)
+
+### The spiral plot
+![spiralPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/spiralPlot.PNG)
+
+### The clock
+![spiralPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/spiralPlot.PNG)
+
+## The list of sensors with DataTables.js
+
+## The user profile
+
+
+
