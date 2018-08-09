@@ -17,13 +17,13 @@ Finally the last task was to put all visualizations together on the web platform
 ## The visualizations made with d3.js v4
 
 ### The line chart
-![lineChart](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/lineChart.PNG)
+![lineChart](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/lineChart.png)
 
 ### The scatter plot
-![scatterPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/scatterPlot.PNG)
+![scatterPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/scatterPlot.png)
 
 ### The box plot
-![boxPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/boxPlot.PNG)
+![boxPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/boxPlot.png)
 
 ### The radial plot
 ![radialPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/radialPlot.PNG)
@@ -38,7 +38,7 @@ Finally the last task was to put all visualizations together on the web platform
 ![spiralPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/spiralPlot.PNG)
 
 ### The clock
-![spiralPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/spiralPlot.PNG)
+![spiralPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/clock.PNG)
 
 ## The list of sensors with DataTables.js
 
