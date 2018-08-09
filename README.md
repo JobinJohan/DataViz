@@ -1,5 +1,5 @@
 # Big building data visualization: a visualization tool for the "Smart Living Lab"
-## Bachelor thesis, university of Fribourg 2018
+## Abstract
 
 Collecting huge amount of data of building has gained importance in the last years. Indeed, with the growth of the Internet of Things, getting data using sensors has become always simpler and cheaper. All these raw data are usually stored in big databases, ready to be used for all kind of applications.
 
@@ -8,3 +8,8 @@ Hence, this work consists in giving a visual meaning of the data through differe
 Finally the last task was to put all visualizations together on the web platform and to create an user-friendly interface such that exploring data of the building is simple and clear.
 
 
+
+
+## The Dashboard
+
+![Bbdata visualization dashboard](m)
