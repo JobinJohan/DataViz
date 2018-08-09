@@ -16,7 +16,7 @@ Finally the last task was to put all visualizations together on the web platform
 
 ## The visualizations made with d3.js v4
 
-### The main table
+### The main table (Not full table here)
 ![mainTable](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/mainTable.PNG)
 
 ### The line chart
