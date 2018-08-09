@@ -43,9 +43,3 @@ Finally the last task was to put all visualizations together on the web platform
 ### The clock
 ![spiralPlot](https://raw.githubusercontent.com/JobinJohan/DataViz/master/figure/clock.PNG)
 
-## The list of sensors with DataTables.js
-
-## The user profile
-
-
-
