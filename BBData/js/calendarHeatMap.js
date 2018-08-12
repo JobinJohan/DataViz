@@ -269,7 +269,7 @@ var days =["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     .text(Math.round(minValue*100)/100 + json[0].unit.symbol);
 
 // Creation of an array containing all points between min and max with an interval of 0.1. It is used to draw the gradient
-  var colourRangeYGB = d3.range(minValue, maxValue, 0.001);
+  var colourRangeYGB = d3.range(minValue, maxValue, (maxValue-minValue)/1000);
 
 // Creation of the gradient
 var defs = svg1.append("defs");

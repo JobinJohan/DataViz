@@ -47,8 +47,7 @@ function radialPlot(jsonTrue, width, height, id, parentDiv){
       .key(function(d){return new Date(d.timestamp).getDate()})
       .entries(json[sensors].values);
   }
-// console.log(test);
-// console.log(json);
+
 
   maxLength = d3.max(test, function(d){
     return d.length;
@@ -170,6 +169,7 @@ function radialPlot(jsonTrue, width, height, id, parentDiv){
     .enter()
     .append("g");
 
+
 // Draw all circles in the previous group
   circles.append("path")
     .attr("d", (d, i)=>circle(i))
@@ -182,6 +182,7 @@ function radialPlot(jsonTrue, width, height, id, parentDiv){
     let scale = d3.scaleLinear()
     .domain([0, 86400])
     .range([0, 2 * PI]);
+
 
 // Radius of the lines that divide the day
   chartRadius = 30 + (Math.min(innerWidth/newNest.length, innerHeight/newNest.length)*newNest.length)/2
@@ -212,6 +213,7 @@ function radialPlot(jsonTrue, width, height, id, parentDiv){
     .style('text-anchor', d => (scale(d) >= PI && scale(d) < 2 * PI ? 'end' : null))
     .attr('transform', d => 'rotate(' + (90 - rad2deg(scale(d))) + ',' + (chartRadius + 10) + ',0)')
     .text(d => d/3600 + ":00");
+
 
 // Draw a bar for all value of each day
   var drawBars= circles.selectAll("hel")
@@ -281,6 +283,7 @@ function radialPlot(jsonTrue, width, height, id, parentDiv){
     return "rotate(" + d.a + "," + d.x  + "," + d.y + ")"; // rotate the bar
   });
 
+
 // Creation of the div that will contain the information about each bar
   var tooltip = d3.select(parentDiv)
     .append('div')
@@ -324,6 +327,7 @@ function radialPlot(jsonTrue, width, height, id, parentDiv){
         tooltip.style('display', 'none');
         tooltip.style('opacity',0);
     });
+
 
 
 /*function rad2deg:
@@ -441,7 +445,7 @@ scaleRectCaption = d3.scaleLinear()
   .text("From: "+formatTime(new Date(minDate)) + " To: "+formatTime(new Date(maxDate)));
 
 // Creation of an array containing all points between min and max with an interval of 0.1. It is used to draw the gradient
-  var colourRangeYGB = d3.range(min, max, 0.001);
+  var colourRangeYGB = d3.range(min, max, (max-min)/1000);
 
 
 
